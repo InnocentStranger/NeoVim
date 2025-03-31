@@ -13,4 +13,7 @@
 
 - works only when root-dir is recognized by lsp
 
+## TMUX
+- add .tmux.conf in ~/ or /home/johnwick 
+
 
