@@ -15,5 +15,5 @@
 
 ## TMUX
 - add .tmux.conf in ~/ or /home/johnwick 
-
+- tmux source-file ~/.tmux.conf 
 

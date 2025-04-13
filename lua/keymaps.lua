@@ -7,16 +7,16 @@ map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 map('i', 'jk', '<Esc>', { noremap = true, silent = true })
 
 -- Move line up
-vim.keymap.set('n', '<A-k>', ":m .-2<CR>==", { silent = true })
+vim.keymap.set('n', '<C-A-k>', ":m .-2<CR>==", { silent = true })
 
 -- Move line down
-vim.keymap.set('n', '<A-j>', ":m .+1<CR>==", { silent = true })
+vim.keymap.set('n', '<C-A-j>', ":m .+1<CR>==", { silent = true })
 
 -- Move selected lines up
-vim.keymap.set('x', '<A-k>', ":m '<-2<CR>gv=gv", { silent = true })
+vim.keymap.set('x', '<C-A-k>', ":m '<-2<CR>gv=gv", { silent = true })
 
 -- Move selected lines down
-vim.keymap.set('x', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set('x', '<C-A-j>', ":m '>+1<CR>gv=gv", { silent = true })
 
 -- Move to Begin & End of Line
 map("n", "<C-e>", "<End>", { desc = "move end of line" })
