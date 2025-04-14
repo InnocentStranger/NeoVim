@@ -1,6 +1,12 @@
 vim.g.mapleader = " "              --Defining leader key
 -- vim.g.netrw_liststyle = 3
 
+-- live reload file changes outside neovim
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold"}, {
+  command = "checktime"
+})
+
 local opt = vim.opt
 
 opt.relativenumber = true
