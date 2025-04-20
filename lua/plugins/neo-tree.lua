@@ -8,8 +8,20 @@ return {
     -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
   },
   lazy = false, -- neo-tree will lazily load itself
-  opts = {
-    -- fill any relevant options here
-    vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { silent = true })
-  },
+    opts = {
+        -- fill any relevant options here
+        vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { silent = true });
+
+        filesystem = {
+            filtered_items = {
+                hide_gitignored = true, -- Optional: hide gitignored files 
+            },
+            window = {
+                mappings = {
+                    ["f"] = "noop",  -- Disable fuzzy filter (default is `f`)
+                    ["/"] = "noop"
+                }
+            },
+        },
+    },
 }
