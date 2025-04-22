@@ -53,7 +53,6 @@ local root_markers = {'.git', '.classpath', 'mvnw', 'gradlew', 'pom.xml', 'build
 -- Use lspconfig's utility for root detection here
 local root_dir = require('jdtls.setup').find_root(root_markers);
 if not root_dir then
-    print("JDTLS Warning: Could not find project root for current file. Using CWD.")
     root_dir = vim.fn.getcwd()
 end
 
@@ -70,7 +69,6 @@ elseif vim.fn.has("unix") == 1 then
 elseif vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
     system_os = "win"
 else
-    print("OS not found, defaulting to 'linux'")
     system_os = "linux"
 end
 
