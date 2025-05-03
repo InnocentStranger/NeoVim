@@ -8,11 +8,12 @@ return {
     },
     config = function()
       local telescope = require('telescope')
-      -- local themes = require('telescope.themes')
       local builtin = require('telescope.builtin')
-
+      -- local themes = require('telescope.themes')
       local actions = require("telescope.actions")
+      local action_state = require('telescope.actions.state')
 
+      telescope.load_extension("fzf");
       telescope.setup ({
         defaults = {
           mappings = {
@@ -20,75 +21,40 @@ return {
               ["<C-k>"] = actions.move_selection_previous, -- move to prev result
               ["<C-j>"] = actions.move_selection_next, -- move to next result
               ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            }
-          }
-        },
-        pickers = {
-          -- You can further customize specific pickers here if needed
-          -- find_files = {
-          --   theme = "dropdown",
-          -- },
-
-          find_files = {
-            theme = "dropdown",
-            layout_strategy = "vertical",
-            layout_config = {
-              preview_cutoff = 0,
-              width = 0.8,
-              height = 0.8,
-              prompt_position = "top",
-            }
+              ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+            },
+            n = {
+              ['<C-p>'] = require('telescope.actions.layout').toggle_preview
+            },
           },
-
-          live_grep = {
-            theme = "dropdown",
-            layout_strategy = "vertical",
-            layout_config = {
-              preview_cutoff = 0,
-              width = 0.8,
-              height = 0.8,
-              prompt_position = "top",
-            }
+          preview = {
+            hide_on_startup = true -- Optional: start with preview hidden
           }
         },
       })
 
-      telescope.load_extension("fzf");
+      local function wrap_picker(fn)
+        return function(opts)
+          opts = vim.tbl_deep_extend("force", {
+            layout_config = {
+              width = 0.6,
+              height = 0.4,
+            },
+            border = true,
+            previewer = false,
+            winblend = 10, -- transparency
+          }, opts or {})
+          fn(require("telescope.themes").get_dropdown(opts))
+        end
+      end
+
 
       local keymap = vim.keymap
-      keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-      keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-      keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+      keymap.set('n', '<leader>ff', wrap_picker(builtin.find_files), { desc = 'Telescope find files' })
+      keymap.set('n', '<leader>fg', wrap_picker(builtin.live_grep), { desc = 'Telescope live grep' })
+      keymap.set('n', '<leader>fb', wrap_picker(builtin.buffers) , { desc = 'Telescope buffers' })
       -- keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
-
-      -- Load the ui-select extension
-      telescope.load_extension('ui-select')
-
-      -- Setup Telescope with the dropdown theme as default
-      -- telescope.setup {
-      --
-      --   },
-      --   extensions = {
-      --     -- Extension configurations can go here
-      --   },
-      -- }
-      --
-      --
     end
   },
-  {
-    "nvim-telescope/telescope-ui-select.nvim",
-    config = function()
-      require("telescope").setup ({
-        extensions = {
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown {
-            }
-          }
-        }
-      })
-      require("telescope").load_extension("ui-select")
-    end
-  }
 }

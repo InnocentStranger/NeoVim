@@ -13,6 +13,7 @@ return {
         vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { silent = true });
 
         filesystem = {
+            hijack_netrw_behavior = "disabled", -- Prevent Neo-tree from auto-opening on directory launch
             filtered_items = {
                 hide_gitignored = true, -- Optional: hide gitignored files 
             },
@@ -23,5 +24,14 @@ return {
                 }
             },
         },
+        -- Autocommand to close directory buffer and open a blank buffer on startup
+        vim.api.nvim_create_autocmd("VimEnter", {
+            callback = function()
+                local arg = vim.fn.argv(0)
+                if arg and vim.fn.isdirectory(arg) == 1 then
+                    vim.cmd("enew")  -- open a new, empty buffer
+                end
+            end,
+        })
     },
 }
