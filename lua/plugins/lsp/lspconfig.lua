@@ -68,7 +68,7 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		local servers = { "clangd", "rust_analyzer", "ts_ls", "jdtls" }
+		local servers = { "clangd", "rust_analyzer", "ts_ls" }
 
 		for _, server in ipairs(servers) do
 			lspconfig[server].setup({
