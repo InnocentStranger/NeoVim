@@ -12,6 +12,7 @@ return {
 			-- local themes = require('telescope.themes')
 			local actions = require("telescope.actions")
 			local action_state = require("telescope.actions.state")
+			local set_colorscheme = require("config.set_colorscheme")
 
 			telescope.load_extension("fzf")
 			telescope.setup({
@@ -38,7 +39,7 @@ return {
 				},
 			})
 
-			local function wrap_picker(fn)
+			local function wrap_picker(fn, editColorscheme, opts_override)
 				return function(opts)
 					opts = vim.tbl_deep_extend("force", {
 						layout_config = {
@@ -48,7 +49,20 @@ return {
 						border = true,
 						previewer = false,
 						winblend = 10, -- transparency
-					}, opts or {})
+					}, opts_override or {}, opts or {})
+
+					if editColorscheme then
+						opts.attach_mappings = function(_, map)
+							map({ "n", "i" }, "<CR>", function(prompt_bufnr)
+								local entry = action_state.get_selected_entry()
+								actions.close(prompt_bufnr)
+								if entry then
+									set_colorscheme.set_and_save_colorscheme(entry.value)
+								end
+							end)
+							return true
+						end
+					end
 					fn(require("telescope.themes").get_dropdown(opts))
 				end
 			end
@@ -57,6 +71,17 @@ return {
 			keymap.set("n", "<leader>ff", wrap_picker(builtin.find_files), { desc = "Telescope find files" })
 			keymap.set("n", "<leader>fg", wrap_picker(builtin.live_grep), { desc = "Telescope live grep" })
 			keymap.set("n", "<leader>fb", wrap_picker(builtin.buffers), { desc = "Telescope buffers" })
+
+			-- Colorscheme picker with live preview and smaller layout
+			keymap.set(
+				"n",
+				"<leader>fc",
+				wrap_picker(builtin.colorscheme, true, {
+					enable_preview = true,
+				}),
+				{ desc = "Telescope colorschemes with preview" }
+			)
+
 			-- keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 		end,
 	},
