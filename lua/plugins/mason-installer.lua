@@ -15,6 +15,13 @@ return {
 				"eslint_d",
 				"pylint",
 				"cpplint",
+
+				-- lsp
+				"clangd",
+				"lua_ls",
+				"rust_analyzer",
+				"ts_ls",
+				"jdtls",
 			},
 			auto_update = false,
 			run_on_start = true,

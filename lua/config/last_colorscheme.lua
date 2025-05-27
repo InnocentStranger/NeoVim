@@ -1,1 +1,1 @@
-return { name = "rose-pine-main" }
+return { name = "catppuccin" }
