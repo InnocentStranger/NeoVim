@@ -6,7 +6,7 @@ return {
 				-- formatters
 				"black",
 				"isort",
-				"prettier",
+				"prettierd",
 				"stylua",
 				"google-java-format",
 				"clang-format",

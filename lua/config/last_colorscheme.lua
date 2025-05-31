@@ -1,1 +1,1 @@
-return { name = "catppuccin" }
+return { name = "tokyonight" }
